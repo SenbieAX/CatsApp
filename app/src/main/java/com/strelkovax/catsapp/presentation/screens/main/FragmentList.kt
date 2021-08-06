@@ -56,10 +56,9 @@ class FragmentList : Fragment() {
                 .setReorderingAllowed(true)
                 .replace(
                     R.id.fragment_container_view,
-                    FragmentDetail.newInstance(it.id, it.url),
-                    "fragment-detail"
+                    FragmentDetail.newInstance(it.id, it.url)
                 )
-                .addToBackStack(null)
+                .addToBackStack("fragment-detail")
                 .commit()
         }
         viewModel.catsImgList.observe(viewLifecycleOwner) {
