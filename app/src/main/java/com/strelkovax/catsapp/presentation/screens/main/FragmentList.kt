@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.strelkovax.catsapp.databinding.FragmentListBinding
 import com.strelkovax.catsapp.presentation.adapters.CatListAdapter
 
 class FragmentList : Fragment() {
 
-    private lateinit var viewModel: ViewModelList
+    private val viewModel by activityViewModels<ViewModelList>()
 
     private var _binding: FragmentListBinding? = null
     private val binding: FragmentListBinding
@@ -37,7 +36,6 @@ class FragmentList : Fragment() {
         val adapter = CatListAdapter()
         binding.rvCatsList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvCatsList.adapter = adapter
-        viewModel = ViewModelProvider(this)[ViewModelList::class.java]
         viewModel.catsImgList.observe(viewLifecycleOwner) {
             adapter.catList = it
         }

@@ -1,11 +1,9 @@
 package com.strelkovax.catsapp.data
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.strelkovax.catsapp.data.api.ApiFactory
 import com.strelkovax.catsapp.domain.entity.CatItem
 import com.strelkovax.catsapp.domain.repository.CatListRepository
-import kotlinx.coroutines.withTimeout
 
 object CatListRepositoryImpl : CatListRepository {
     override fun addCatToFavorite(catItem: CatItem) {
@@ -21,8 +19,7 @@ object CatListRepositoryImpl : CatListRepository {
     }
 
     override suspend fun getCatList(page: Int): List<CatItem> {
-        val response = ApiFactory.apiService.getCatList(page = page)
-        return response.body().orEmpty()
+        return ApiFactory.apiService.getCatList(page = page)
     }
 
     override fun getFavoriteCatList(): LiveData<List<CatItem>> {

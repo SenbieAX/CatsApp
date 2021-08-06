@@ -4,13 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.strelkovax.catsapp.data.CatListRepositoryImpl
 import com.strelkovax.catsapp.domain.entity.CatItem
 import com.strelkovax.catsapp.domain.usecases.GetCatListUseCase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ViewModelList : ViewModel() {
 
@@ -24,14 +22,12 @@ class ViewModelList : ViewModel() {
     val page: LiveData<Int> get() = _page
 
     fun loadData() {
-        GlobalScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             try {
                 val data = getCatListUseCase.getCatList(_page.value ?: 1)
-                withContext(Dispatchers.Main) {
-                    _catsImgList.value = (data.map { it })
-                }
+                _catsImgList.value = data
             } catch (e: Exception) {
-                Log.d("TEST_TEST", e.toString())
+                Log.e("TEST_TEST", e.toString(), e)
             }
         }
     }
