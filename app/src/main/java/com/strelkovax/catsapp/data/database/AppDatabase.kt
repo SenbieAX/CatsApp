@@ -19,7 +19,8 @@ abstract class AppDatabase : RoomDatabase() {
             synchronized(LOCK) {
                 db?.let { return it }
                 val instance =
-                    Room.databaseBuilder(context, AppDatabase::class.java, DB_NAME).build()
+                    Room.databaseBuilder(context, AppDatabase::class.java, DB_NAME)
+                        .fallbackToDestructiveMigration().build()
                 db = instance
                 return instance
             }

@@ -10,10 +10,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val fm = supportFragmentManager
-        fm.beginTransaction()
-            .setReorderingAllowed(true)
-            .replace(R.id.fragment_container_view, FragmentList())
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container_view, FragmentList(), "fragment-list")
+                .commit()
+        }
     }
 }

@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.strelkovax.catsapp.R
 import com.strelkovax.catsapp.databinding.FragmentListBinding
 import com.strelkovax.catsapp.presentation.adapters.CatListAdapter
+import com.strelkovax.catsapp.presentation.screens.detail.FragmentDetail
 
 class FragmentList : Fragment() {
 
@@ -33,14 +35,8 @@ class FragmentList : Fragment() {
 
     private fun setup() {
         setupButtons()
-        val adapter = CatListAdapter()
-        binding.rvCatsList.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.rvCatsList.adapter = adapter
-        viewModel.catsImgList.observe(viewLifecycleOwner) {
-            adapter.catList = it
-        }
+        setupRecyclerView()
         viewModel.page.observe(viewLifecycleOwner) {
-            binding.rvCatsList.smoothScrollToPosition(0)
             binding.textViewPage.text = it.toString()
             if (it == 1) {
                 binding.imgArrowLeft.visibility = View.INVISIBLE
@@ -51,12 +47,34 @@ class FragmentList : Fragment() {
         viewModel.loadData()
     }
 
+    private fun setupRecyclerView() {
+        val adapter = CatListAdapter()
+        binding.rvCatsList.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvCatsList.adapter = adapter
+        adapter.onCatItemClickListener = {
+            parentFragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(
+                    R.id.fragment_container_view,
+                    FragmentDetail.newInstance(it.id, it.url),
+                    "fragment-detail"
+                )
+                .addToBackStack(null)
+                .commit()
+        }
+        viewModel.catsImgList.observe(viewLifecycleOwner) {
+            adapter.catList = it
+        }
+    }
+
     private fun setupButtons() {
         binding.imgArrowLeft.setOnClickListener {
             viewModel.backPage()
+            binding.rvCatsList.smoothScrollToPosition(0)
         }
         binding.imgArrowRight.setOnClickListener {
             viewModel.nextPage()
+            binding.rvCatsList.smoothScrollToPosition(0)
         }
     }
 

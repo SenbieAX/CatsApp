@@ -14,4 +14,6 @@ interface CatListRepository {
     suspend fun getCatList(page: Int): List<CatItem>
 
     fun getFavoriteCatList(): LiveData<List<CatItem>>
+
+    fun downloadCat()
 }
