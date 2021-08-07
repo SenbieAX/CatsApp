@@ -9,7 +9,7 @@ interface CatLocalRepository {
 
     suspend fun deleteCatFromFavorite(catItem: CatItem)
 
-    suspend fun getCatItem(catItemId: String): Flow<CatItem>
+    suspend fun getCatItem(catItemId: String): Flow<CatItem>?
 
     suspend fun getFavoriteCatList(): Flow<List<CatItem>>
 

@@ -11,7 +11,7 @@ interface CatInfoDao {
     fun getFavoriteCatList(): Flow<List<CatItem>>
 
     @Query("SELECT * FROM cat_info_list WHERE id == :id LIMIT 1")
-    fun getInfoAboutCatById(id: String): Flow<CatItem>
+    fun getInfoAboutCatById(id: String): Flow<CatItem>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCatItem(catItem: CatItem)

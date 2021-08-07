@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 class GetCatItemUseCase(private val catLocalRepository: CatLocalRepository) {
 
-    suspend fun getCatItem(catItemId: String): Flow<CatItem> {
+    suspend fun getCatItem(catItemId: String): Flow<CatItem>? {
         return catLocalRepository.getCatItem(catItemId)
     }
 }

@@ -5,11 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.squareup.picasso.Picasso
 import com.strelkovax.catsapp.R
 import com.strelkovax.catsapp.databinding.FragmentDetailBinding
-import com.strelkovax.catsapp.databinding.FragmentListBinding
+import com.strelkovax.catsapp.domain.entity.CatItem
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,19 +24,25 @@ private const val ARG_PARAM2 = "param2"
  */
 class FragmentDetail : Fragment() {
 
+    private val viewModel by viewModels<ViewModelDetail>()
+
     private var _binding: FragmentDetailBinding? = null
     private val binding: FragmentDetailBinding
         get() = _binding ?: throw RuntimeException("FragmentDetailsBinding == null")
 
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var param1: String = ""
+    private var param2: String = ""
+
+    private var catItem = CatItem("", "")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            param1 = it.getString(ARG_PARAM1).toString()
+            param2 = it.getString(ARG_PARAM2).toString()
+            catItem.id = param1
+            catItem.url = param2
         }
     }
 
@@ -49,7 +56,22 @@ class FragmentDetail : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setup()
+    }
+
+    private fun setup() {
+        setupButtons()
         Picasso.get().load(param2).placeholder(R.drawable.img_placeholder).into(binding.imageViewCat)
+        viewModel.text.observe(viewLifecycleOwner) {
+            binding.buttonAddToFavorite.text = it
+        }
+        viewModel.initFavorite(catItem)
+    }
+
+    private fun setupButtons() {
+        binding.buttonAddToFavorite.setOnClickListener {
+            viewModel.changeFavorite(catItem)
+        }
     }
 
     companion object {

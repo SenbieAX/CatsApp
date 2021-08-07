@@ -20,7 +20,7 @@ class CatLocalRepositoryImpl(private val catInfoDao: CatInfoDao) : CatLocalRepos
         }
     }
 
-    override suspend fun getCatItem(catItemId: String): Flow<CatItem> {
+    override suspend fun getCatItem(catItemId: String): Flow<CatItem>? {
         return catInfoDao.getInfoAboutCatById(catItemId)
     }
 
