@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,6 +12,7 @@ import com.strelkovax.catsapp.R
 import com.strelkovax.catsapp.databinding.FragmentListBinding
 import com.strelkovax.catsapp.presentation.adapters.CatListAdapter
 import com.strelkovax.catsapp.presentation.screens.detail.FragmentDetail
+import java.util.*
 
 class FragmentList : Fragment() {
 
@@ -42,6 +44,12 @@ class FragmentList : Fragment() {
                 binding.imgArrowLeft.visibility = View.INVISIBLE
             } else {
                 binding.imgArrowLeft.visibility = View.VISIBLE
+            }
+        }
+        viewModel.errors.observe(viewLifecycleOwner) {
+            if (it != null) {
+                Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                viewModel.clearErrors()
             }
         }
         viewModel.loadData()

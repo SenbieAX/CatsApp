@@ -2,11 +2,12 @@ package com.strelkovax.catsapp.domain.usecases
 
 import androidx.lifecycle.LiveData
 import com.strelkovax.catsapp.domain.entity.CatItem
-import com.strelkovax.catsapp.domain.repository.CatListRepository
+import com.strelkovax.catsapp.domain.repository.CatLocalRepository
+import kotlinx.coroutines.flow.Flow
 
-class GetFavoriteCatListUseCase(private val catListRepository: CatListRepository) {
+class GetFavoriteCatListUseCase(private val catLocalRepository: CatLocalRepository) {
 
-    fun getFavoriteCatList(): LiveData<List<CatItem>> {
-        return catListRepository.getFavoriteCatList()
+    suspend fun getFavoriteCatList(): Flow<List<CatItem>> {
+        return catLocalRepository.getFavoriteCatList()
     }
 }

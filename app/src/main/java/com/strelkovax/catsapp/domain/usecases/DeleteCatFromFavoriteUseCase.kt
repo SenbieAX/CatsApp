@@ -1,11 +1,11 @@
 package com.strelkovax.catsapp.domain.usecases
 
 import com.strelkovax.catsapp.domain.entity.CatItem
-import com.strelkovax.catsapp.domain.repository.CatListRepository
+import com.strelkovax.catsapp.domain.repository.CatLocalRepository
 
-class DeleteCatFromFavoriteUseCase(private val catListRepository: CatListRepository) {
+class DeleteCatFromFavoriteUseCase(private val catLocalRepository: CatLocalRepository) {
 
-    fun deleteCatFromFavorite(catItem: CatItem) {
-        catListRepository.deleteCatFromFavorite(catItem)
+    suspend fun deleteCatFromFavorite(catItem: CatItem) {
+        catLocalRepository.deleteCatFromFavorite(catItem)
     }
 }

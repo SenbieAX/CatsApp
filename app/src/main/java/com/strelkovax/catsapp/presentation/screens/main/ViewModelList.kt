@@ -1,16 +1,19 @@
 package com.strelkovax.catsapp.presentation.screens.main
 
-import android.util.Log
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.strelkovax.catsapp.data.CatListRepositoryImpl
+import com.strelkovax.catsapp.data.repository.CatListRepositoryImpl
 import com.strelkovax.catsapp.domain.entity.CatItem
 import com.strelkovax.catsapp.domain.usecases.GetCatListUseCase
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
-class ViewModelList : ViewModel() {
+class ViewModelList(application: Application) : AndroidViewModel(application) {
+
+    private val context = getApplication<Application>()
 
     private val repository = CatListRepositoryImpl
 
@@ -20,14 +23,18 @@ class ViewModelList : ViewModel() {
     val catsImgList: LiveData<List<CatItem>> get() = _catsImgList
     private var _page = MutableLiveData(1)
     val page: LiveData<Int> get() = _page
+    private val _errors = MutableLiveData<Throwable?>()
+    val errors: MutableLiveData<Throwable?> get() = _errors
 
     fun loadData() {
         viewModelScope.launch {
             try {
                 val data = getCatListUseCase.getCatList(_page.value ?: 1)
                 _catsImgList.value = data
-            } catch (e: Exception) {
-                Log.e("TEST_TEST", e.toString(), e)
+            } catch (e: UnknownHostException) {
+                _errors.value = Exception("Нет соединения с интернетом")
+            } catch (e: UnknownHostException) {
+                _errors.value = Exception("Ошибка")
             }
         }
     }
@@ -42,5 +49,9 @@ class ViewModelList : ViewModel() {
             _page.value = _page.value?.minus(1)
             _page.value?.let { loadData() }
         }
+    }
+
+    fun clearErrors() {
+        _errors.value = null
     }
 }

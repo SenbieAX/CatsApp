@@ -1,11 +1,11 @@
 package com.strelkovax.catsapp.domain.usecases
 
 import com.strelkovax.catsapp.domain.entity.CatItem
-import com.strelkovax.catsapp.domain.repository.CatListRepository
+import com.strelkovax.catsapp.domain.repository.CatLocalRepository
 
-class AddCatToFavoriteUseCase(private val catListRepository: CatListRepository) {
+class AddCatToFavoriteUseCase(private val catLocalRepository: CatLocalRepository) {
 
-    fun addCatToFavorite() {
-        catListRepository.downloadCat()
+    suspend fun addCatToFavorite(catItem: CatItem) {
+        catLocalRepository.addCatToFavorite(catItem)
     }
 }
