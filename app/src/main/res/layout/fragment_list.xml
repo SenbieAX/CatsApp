@@ -25,7 +25,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/text_view_page"
         app:layout_constraintEnd_toStartOf="@id/text_view_page"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_view_page" />
+        app:layout_constraintTop_toTopOf="@+id/text_view_page"
+        android:contentDescription="@string/arrow_left" />
 
     <TextView
         android:id="@+id/text_view_page"
@@ -46,6 +47,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/text_view_page"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/text_view_page"
-        app:layout_constraintTop_toTopOf="@+id/text_view_page" />
+        app:layout_constraintTop_toTopOf="@+id/text_view_page"
+        android:contentDescription="@string/arrow_right" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

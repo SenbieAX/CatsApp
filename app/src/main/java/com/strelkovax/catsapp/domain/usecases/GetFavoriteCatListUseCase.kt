@@ -1,6 +1,5 @@
 package com.strelkovax.catsapp.domain.usecases
 
-import androidx.lifecycle.LiveData
 import com.strelkovax.catsapp.domain.entity.CatItem
 import com.strelkovax.catsapp.domain.repository.CatLocalRepository
 import kotlinx.coroutines.flow.Flow

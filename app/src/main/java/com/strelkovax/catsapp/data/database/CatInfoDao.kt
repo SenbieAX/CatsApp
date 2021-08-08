@@ -1,6 +1,5 @@
 package com.strelkovax.catsapp.data.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.strelkovax.catsapp.domain.entity.CatItem
 import kotlinx.coroutines.flow.Flow

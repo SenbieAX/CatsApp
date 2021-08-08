@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.strelkovax.catsapp.R
 import com.strelkovax.catsapp.data.database.AppDatabase
 import com.strelkovax.catsapp.data.repository.CatListRepositoryImpl
 import com.strelkovax.catsapp.data.repository.CatLocalRepositoryImpl
@@ -47,11 +48,11 @@ class ViewModelDetail(application: Application) : AndroidViewModel(application) 
             val favoriteCat = getFavoriteCat.getCatItem(catItem.id)?.first()
             if (favoriteCat == null) {
                 addCatToFavorite.addCatToFavorite(catItem)
-                _text.value = "Удалить из избранного"
+                _text.value = context.getString(R.string.remove_from_favorite)
                 _back.value = false
             } else {
                 deleteCatFromFavorite.deleteCatFromFavorite(favoriteCat)
-                _text.value = "Добавить в избранное"
+                _text.value = context.getString(R.string.add_to_favorite)
                 _back.value = true
             }
         }
@@ -61,9 +62,9 @@ class ViewModelDetail(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             val favoriteCat = getFavoriteCat.getCatItem(catItem.id)?.first()
             if (favoriteCat == null) {
-                _text.value = "Добавить в избранное"
+                _text.value = context.getString(R.string.add_to_favorite)
             } else {
-                _text.value = "Удалить из избранного"
+                _text.value = context.getString(R.string.remove_from_favorite)
             }
         }
     }
@@ -72,7 +73,7 @@ class ViewModelDetail(application: Application) : AndroidViewModel(application) 
         try {
             downloadCat.downloadCat(fileName, url, context)
         } catch (e: Exception) {
-            _errors.value = Exception("Ошибка")
+            _errors.value = Exception(context.getString(R.string.error))
         }
     }
 
@@ -101,7 +102,7 @@ class ViewModelDetail(application: Application) : AndroidViewModel(application) 
                 }
             }
         }
-        _errors.value = Exception("Нет соединения с интернетом")
+        _errors.value = Exception(context.getString(R.string.no_internet_connection))
         return false
     }
 }

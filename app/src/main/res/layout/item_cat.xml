@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -13,9 +12,10 @@
             android:id="@+id/img_cat"
             android:layout_width="0dp"
             android:layout_height="225dp"
-            android:scaleType="fitXY"
             android:layout_weight="1"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/cat_image"
+            android:scaleType="fitXY"
             tools:srcCompat="@tools:sample/avatars" />
 
     </LinearLayout>

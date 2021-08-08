@@ -12,7 +12,6 @@ import com.strelkovax.catsapp.R
 import com.strelkovax.catsapp.databinding.FragmentListBinding
 import com.strelkovax.catsapp.presentation.adapters.CatListAdapter
 import com.strelkovax.catsapp.presentation.screens.detail.FragmentDetail
-import java.util.*
 
 class FragmentList : Fragment() {
 
@@ -76,12 +75,16 @@ class FragmentList : Fragment() {
 
     private fun setupButtons() {
         binding.imgArrowLeft.setOnClickListener {
-            viewModel.backPage()
-            binding.rvCatsList.smoothScrollToPosition(0)
+            if (viewModel.isOnline()) {
+                viewModel.backPage()
+                binding.rvCatsList.smoothScrollToPosition(0)
+            }
         }
         binding.imgArrowRight.setOnClickListener {
-            viewModel.nextPage()
-            binding.rvCatsList.smoothScrollToPosition(0)
+            if (viewModel.isOnline()) {
+                viewModel.nextPage()
+                binding.rvCatsList.smoothScrollToPosition(0)
+            }
         }
     }
 

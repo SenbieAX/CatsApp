@@ -1,7 +1,6 @@
 package com.strelkovax.catsapp.domain.repository
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import com.strelkovax.catsapp.domain.entity.CatItem
 
 interface CatListRepository {

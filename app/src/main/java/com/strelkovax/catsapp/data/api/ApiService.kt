@@ -1,7 +1,6 @@
 package com.strelkovax.catsapp.data.api
 
 import com.strelkovax.catsapp.domain.entity.CatItem
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
