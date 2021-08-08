@@ -1,12 +1,16 @@
 package com.strelkovax.catsapp.presentation.screens.detail
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.squareup.picasso.Picasso
 import com.strelkovax.catsapp.R
@@ -64,6 +68,12 @@ class FragmentDetail : Fragment() {
                 parentFragmentManager.popBackStack()
             }
         }
+        viewModel.errors.observe(viewLifecycleOwner) {
+            if (it != null) {
+                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                viewModel.clearErrors()
+            }
+        }
         viewModel.initFavorite(catItem)
     }
 
@@ -71,9 +81,16 @@ class FragmentDetail : Fragment() {
         binding.buttonAddToFavorite.setOnClickListener {
             viewModel.changeFavorite(catItem)
         }
+        binding.buttonDownload.setOnClickListener {
+            if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_PERMISSION_CODE)
+            ) if (viewModel.isOnline()) viewModel.downloadImage(catId, catUrl)
+        }
     }
 
     companion object {
+
+        private const val STORAGE_PERMISSION_CODE = 101
+
         @JvmStatic
         fun newInstance(catId: String, catUrl: String) =
             FragmentDetail().apply {
@@ -87,5 +104,19 @@ class FragmentDetail : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+    private fun checkPermission(permission: String, requestCode: Int): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) return true
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                permission
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), requestCode)
+            return false
+        }
+        return true
     }
 }
