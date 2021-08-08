@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
-class ViewModelFavorite(application: Application) : AndroidViewModel(application) {
+class ViewModelFavoriteList(application: Application) : AndroidViewModel(application) {
 
     private val context = getApplication<Application>()
 
@@ -37,5 +37,9 @@ class ViewModelFavorite(application: Application) : AndroidViewModel(application
                 _errors.value = Exception("Ошибка")
             }
         }
+    }
+
+    fun clearErrors() {
+        _errors.value = null
     }
 }

@@ -1,10 +1,12 @@
 package com.strelkovax.catsapp.presentation.screens.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.squareup.picasso.Picasso
 import com.strelkovax.catsapp.R
@@ -56,6 +58,11 @@ class FragmentDetail : Fragment() {
             .into(binding.imageViewCat)
         viewModel.text.observe(viewLifecycleOwner) {
             binding.buttonAddToFavorite.text = it
+        }
+        viewModel.back.observe(viewLifecycleOwner) {
+            if (it == true) {
+                parentFragmentManager.popBackStack()
+            }
         }
         viewModel.initFavorite(catItem)
     }

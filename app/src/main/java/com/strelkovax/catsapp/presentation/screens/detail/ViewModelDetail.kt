@@ -28,16 +28,21 @@ class ViewModelDetail(application: Application): AndroidViewModel(application) {
     private val _text = MutableLiveData<String>()
     val text: LiveData<String> get() = _text
 
+    //Meh i don`t like it
+    private val _back = MutableLiveData<Boolean>()
+    val back: LiveData<Boolean> get() = _back
+
     fun changeFavorite(catItem: CatItem) {
         viewModelScope.launch {
             val favoriteCat = getFavoriteCat.getCatItem(catItem.id)?.first()
-            Log.d("TEST_TEST", favoriteCat.toString())
             if (favoriteCat == null) {
                 addCatToFavorite.addCatToFavorite(catItem)
                 _text.value = "Удалить из избранного"
+                _back.value = false
             } else {
                 deleteCatFromFavorite.deleteCatFromFavorite(favoriteCat)
                 _text.value = "Добавить в избранное"
+                _back.value = true
             }
         }
     }

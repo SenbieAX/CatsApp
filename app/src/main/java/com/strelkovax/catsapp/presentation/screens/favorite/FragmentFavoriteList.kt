@@ -1,24 +1,21 @@
 package com.strelkovax.catsapp.presentation.screens.favorite
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.strelkovax.catsapp.R
-import com.strelkovax.catsapp.databinding.FragmentDetailBinding
 import com.strelkovax.catsapp.databinding.FragmentFavoriteBinding
-import com.strelkovax.catsapp.databinding.FragmentListBinding
 import com.strelkovax.catsapp.presentation.adapters.CatListAdapter
 import com.strelkovax.catsapp.presentation.screens.detail.FragmentDetail
-import com.strelkovax.catsapp.presentation.screens.main.ViewModelList
 
-class FragmentFavorite : Fragment() {
+class FragmentFavoriteList : Fragment() {
 
-    private val viewModel by viewModels<ViewModelFavorite>()
+    private val viewModel by viewModels<ViewModelFavoriteList>()
 
     private var _binding: FragmentFavoriteBinding? = null
     private val binding: FragmentFavoriteBinding
@@ -44,6 +41,12 @@ class FragmentFavorite : Fragment() {
 
     private fun setup() {
         setupRecyclerView()
+        viewModel.errors.observe(viewLifecycleOwner) {
+            if (it != null) {
+                Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                viewModel.clearErrors()
+            }
+        }
         viewModel.loadSavedCats()
     }
 
