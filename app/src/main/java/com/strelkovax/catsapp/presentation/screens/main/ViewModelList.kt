@@ -33,7 +33,7 @@ class ViewModelList(application: Application) : AndroidViewModel(application) {
                 _catsImgList.value = data
             } catch (e: UnknownHostException) {
                 _errors.value = Exception("Нет соединения с интернетом")
-            } catch (e: UnknownHostException) {
+            } catch (e: Exception) {
                 _errors.value = Exception("Ошибка")
             }
         }

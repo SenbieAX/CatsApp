@@ -15,6 +15,8 @@ import kotlinx.coroutines.launch
 
 class ViewModelDetail(application: Application): AndroidViewModel(application) {
 
+    private val context = getApplication<Application>()
+
     private val db = AppDatabase.getInstance(application)
 
     private val repository = CatLocalRepositoryImpl(db.catInfoDao())
