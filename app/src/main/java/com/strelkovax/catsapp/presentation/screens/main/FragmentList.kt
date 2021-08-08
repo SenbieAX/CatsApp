@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.strelkovax.catsapp.R
 import com.strelkovax.catsapp.databinding.FragmentListBinding
 import com.strelkovax.catsapp.presentation.adapters.CatListAdapter
+import com.strelkovax.catsapp.presentation.SingleToast
 import com.strelkovax.catsapp.presentation.screens.detail.FragmentDetail
 
 class FragmentList : Fragment() {
@@ -47,7 +48,7 @@ class FragmentList : Fragment() {
         }
         viewModel.errors.observe(viewLifecycleOwner) {
             if (it != null) {
-                Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                SingleToast.show(requireContext(), it.message, Toast.LENGTH_LONG)
                 viewModel.clearErrors()
             }
         }

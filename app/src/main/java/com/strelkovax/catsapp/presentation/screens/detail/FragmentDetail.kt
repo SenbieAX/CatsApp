@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso
 import com.strelkovax.catsapp.R
 import com.strelkovax.catsapp.databinding.FragmentDetailBinding
 import com.strelkovax.catsapp.domain.entity.CatItem
+import com.strelkovax.catsapp.presentation.SingleToast
 
 private const val ARG_CAT_ID = "cat_id"
 private const val ARG_CAT_URL = "cat_url"
@@ -70,7 +71,7 @@ class FragmentDetail : Fragment() {
         }
         viewModel.errors.observe(viewLifecycleOwner) {
             if (it != null) {
-                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                SingleToast.show(requireContext(), it.message, Toast.LENGTH_LONG)
                 viewModel.clearErrors()
             }
         }
